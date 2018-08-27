@@ -1,34 +1,55 @@
 # -*- Coding: utf-8 -*-
 import cv2
+from datetime import datetime
+
+
+height=240
+width=320
+
+#フォントの大きさ
+fontscale = 0.3
+#フォントカラー(B, G, R)
+color=(255, 255, 255)
+#フォント
+fontface = cv2.FONT_HERSHEY_SIMPLEX
+
 # 保存パスの指定
 save_path = "./"
+
+
 def main():
-    # カメラのキャプチャを開始
-    cam = cv2.VideoCapture(0)
-    # フレームの初期化 --- (*1)
-    img1 = img2 = img3 = get_image(cam)
-    th = 300
-    num = 1
-    while True:
-        # escキーが押されたら終了
-        if cv2.waitKey(1) == 0x1b: break
-        # 差分を調べる --- (*2)
-        diff = check_image(img1, img2, img3)
-        # 差分がthの値以上なら動きがあったと判定 --- (*3)
-        cnt = cv2.countNonZero(diff)
-        if cnt > th:
-            print("カメラに動きを検出")
-            cv2.imshow('PUSH ENTER KEY', img3)
-            # 写真を画像 --- (*4)
-            cv2.imwrite(save_path + str(num) + ".jpg", img3)
-            num += 1
-        else:
-            cv2.imshow('PUSH ENTER KEY', diff)
-        # 比較用の画像を保存 --- (*5)
-        img1, img2, img3 = (img2, img3, get_image(cam))
-    # 後始末
-    cam.release()
-    cv2.destroyAllWindows() 
+    # カメラのキャプチャを開始 --- (*1)
+	cam = cv2.VideoCapture(0)
+
+	cam.set(cv2.CAP_PROP_FPS, 10)           # カメラFPSを60FPSに設定
+	cam.set(cv2.CAP_PROP_FRAME_HEIGHT, height) # カメラ画像の縦幅を240に設定
+	cam.set(cv2.CAP_PROP_FRAME_WIDTH, width) # カメラ画像の横幅を320に設定
+
+	# フレームの初期化 --- (*1)
+	img1 = img2 = img3 = get_image(cam)
+	th = 100
+	num = 1
+	while True:
+		# ESCキーが押されたら終了
+		if cv2.waitKey(1) == 0x1b: break
+		# 差分を調べる --- (*2)
+		diff = check_image(img1, img2, img3)
+		# 差分がthの値以上なら動きがあったと判定 --- (*3)
+		cnt = cv2.countNonZero(diff)
+		if cnt > th:
+			print("カメラに動きを検出")
+			cv2.putText(img3,datetime.now().strftime("%Y/%m/%d %H:%M:%S"),(width-120,height-5),fontface,fontscale, color)
+			cv2.imshow('PUSH ESC KEY', img3)
+			# 写真を画像 --- (*4)
+			#cv2.imwrite(save_path + str(num) + ".jpg", img3)
+			num += 1
+		else:
+			cv2.imshow('PUSH ENTER KEY', diff)
+		# 比較用の画像を保存 --- (*5)
+		img1, img2, img3 = (img2, img3, get_image(cam))
+	# 後始末
+	cam.release()
+	cv2.destroyAllWindows() 
 
 # 画像に動きがあったか調べる関数
 def check_image(img1, img2, img3):
