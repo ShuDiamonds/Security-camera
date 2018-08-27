@@ -4,8 +4,8 @@ import cv2
 cam = cv2.VideoCapture(0)
 
 cam.set(cv2.CAP_PROP_FPS, 10)           # カメラFPSを60FPSに設定
-cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 240) # カメラ画像の縦幅を720に設定
-cam.set(cv2.CAP_PROP_FRAME_WIDTH, 320) # カメラ画像の横幅を1280に設定
+cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 240) # カメラ画像の縦幅を240に設定
+cam.set(cv2.CAP_PROP_FRAME_WIDTH, 320) # カメラ画像の横幅を320に設定
 
 print(cam.get(cv2.CAP_PROP_FPS))
 print(cam.get(cv2.CAP_PROP_FRAME_WIDTH))
