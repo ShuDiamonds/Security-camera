@@ -2,10 +2,12 @@
 import cv2
 from datetime import datetime
 import numpy as np
+from time import sleep
 
 
 height=240
 width=320
+fps=2
 # カメラのキャプチャを開始 --- (*1)
 cam = cv2.VideoCapture(0)
 
@@ -26,11 +28,12 @@ fontface = cv2.FONT_HERSHEY_SIMPLEX
 
 # Define the codec and create VideoWriter object
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
-out = cv2.VideoWriter('./output.avi',fourcc, 30, (width,height))
+out = cv2.VideoWriter('./output_{0}.avi'.format(datetime.now().strftime("%Y/%m/%d %H:%M:%S")),fourcc, fps, (width,height))
 
 while True:
 	# 画像を取得 --- (*2)
 	_, img = cam.read()
+	sleep(0.5)
 	cv2.putText(img,datetime.now().strftime("%Y/%m/%d %H:%M:%S"),(width-120,height-5),fontface,fontscale, color)
 	# write the flipped frame
 	out.write(img)
