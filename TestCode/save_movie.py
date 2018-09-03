@@ -28,7 +28,7 @@ fontface = cv2.FONT_HERSHEY_SIMPLEX
 
 # Define the codec and create VideoWriter object
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
-out = cv2.VideoWriter('./output_{0}.avi'.format(datetime.now().strftime("%Y/%m/%d %H:%M:%S")),fourcc, fps, (width,height))
+out = cv2.VideoWriter('./output_{0}.avi'.format(datetime.now().strftime("%Y_%m_%d %H:%M:%S")),fourcc, fps, (width,height))
 
 while True:
 	# 画像を取得 --- (*2)
