@@ -6,11 +6,12 @@ from time import sleep
 
 height=240
 width=320
+fps=2
 
 #フォントの大きさ
 fontscale = 0.3
 #フォントカラー(B, G, R)
-color=(255, 255, 255)
+color=(0, 255, 0)
 #フォント
 fontface = cv2.FONT_HERSHEY_SIMPLEX
 
@@ -53,37 +54,53 @@ if __name__ == '__main__':
 	# フレームの初期化 --- (*1)
 	img1 = img2 = img3 = get_image(cam)
 	th = 50
-	num = 1
+	
+	# Define the codec and create VideoWriter object
+	fourcc = cv2.VideoWriter_fourcc(*'XVID')
+	
+	
 	while True:
-		# ESCキーが押されたら終了
-		if cv2.waitKey(1) == 0x1b: break
-		# 差分を調べる --- (*2)
-		diff = check_image(img1, img2, img3)
-		# 差分がthの値以上なら動きがあったと判定 --- (*3)
-		cnt = cv2.countNonZero(diff)
-		if cnt > th:
-			print("カメラに動きを検出")
-			lifetime=10
-		else:
-			lifetime=lifetime-2
-			if lifetime<0:
-				lifetime=0
+		out = cv2.VideoWriter('./output_{0}.avi'.format(datetime.now().strftime("%Y_%m_%d %H:%M:%S")),fourcc, fps, (width,height))
+		StartTime=datetime.now()
+		while True:
+			#check pass 1hour or not 
+			if (datetime.now()-StartTime).total_seconds()>3600:
+				break
+			# ESCキーが押されたら終了
+			if cv2.waitKey(1) == 0x1b: break
+			# 差分を調べる --- (*2)
+			diff = check_image(img1, img2, img3)
+			# 差分がthの値以上なら動きがあったと判定 --- (*3)
+			cnt = cv2.countNonZero(diff)
+			if cnt > th:
+				print("カメラに動きを検出")
+				lifetime=10
+			else:
+				print(str(lifetime)+":"+datetime.now().strftime("%Y/%m/%d %H:%M:%S"))
+				lifetime=lifetime-1 #5sec saved
+				if lifetime<0:
+					lifetime=0
 				
-		if lifetime>0:
+			if lifetime>0:
+				tmpimg=img3
+			else:
+				tmpimg=diff
 			
-			cv2.putText(img3,datetime.now().strftime("%Y/%m/%d %H:%M:%S"),(width-120,height-5),fontface,fontscale, color)
-			cv2.imshow('PUSH ESC 
-			KEY', img3)
+			cv2.putText(tmpimg,datetime.now().strftime("%Y/%m/%d %H:%M:%S"),(width-120,height-5),fontface,fontscale, color)
+			cv2.imshow('PUSH ESC KEY', tmpimg)
 			# 写真を画像 --- (*4)
 			#cv2.imwrite(save_path + str(num) + ".jpg", img3)
-			num += 1
-		else:
-			cv2.putText(diff,datetime.now().strftime("%Y/%m/%d %H:%M:%S"),(width-120,height-5),fontface,fontscale, color)
-			cv2.imshow('PUSH ESC KEY', diff)
-		# 比較用の画像を保存 --- (*5)
-		img1, img2, img3 = (img2, img3, get_image(cam))
+			out.write(tmpimg)
+		
+		
+			# 比較用の画像を保存 --- (*5)
+			img1, img2, img3 = (img2, img3, get_image(cam))
+		
+		#1hour while-loop
+		out.release()
 	# 後始末
 	cam.release()
+	out.release()
 	cv2.destroyAllWindows() 
 
 
