@@ -9,9 +9,9 @@ width=320
 fps=2
 
 #フォントの大きさ
-fontscale = 0.3
+fontscale = 0.35
 #フォントカラー(B, G, R)
-color=(0, 255, 0)
+color=(0, 0, 255)
 #フォント
 fontface = cv2.FONT_HERSHEY_SIMPLEX
 
@@ -62,6 +62,7 @@ if __name__ == '__main__':
 	while True:
 		out = cv2.VideoWriter('./output_{0}.avi'.format(datetime.now().strftime("%Y_%m_%d %H:%M:%S")),fourcc, fps, (width,height))
 		StartTime=datetime.now()
+		
 		while True:
 			#check pass 1hour or not 
 			if (datetime.now()-StartTime).total_seconds()>3600:
@@ -86,7 +87,7 @@ if __name__ == '__main__':
 			else:
 				tmpimg=diff
 			
-			cv2.putText(tmpimg,datetime.now().strftime("%Y/%m/%d %H:%M:%S"),(width-120,height-5),fontface,fontscale, color)
+			cv2.putText(tmpimg,datetime.now().strftime("%Y/%m/%d %H:%M:%S"),(width-130,height-5),fontface,fontscale, color)
 			cv2.imshow('PUSH ESC KEY', tmpimg)
 			# 写真を画像 --- (*4)
 			#cv2.imwrite(save_path + str(num) + ".jpg", img3)
@@ -98,6 +99,8 @@ if __name__ == '__main__':
 		
 		#1hour while-loop
 		out.release()
+		# ESCキーが押されたら終了
+		if cv2.waitKey(1) == 0x1b: break
 	# 後始末
 	cam.release()
 	out.release()
