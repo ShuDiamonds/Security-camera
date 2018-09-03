@@ -3,6 +3,7 @@ import cv2
 from datetime import datetime
 import numpy as np
 from time import sleep
+import csv
 
 height=240
 width=320
@@ -35,6 +36,17 @@ def check_image(img1, img2, img3):
     # ノイズの除去 --- (*10)
     diff = cv2.medianBlur(diff_wb, 5)
     return diff
+
+# moment
+def cal_moment(img):
+	mu = cv2.moments(img, False)
+	x,y= int(mu["m10"]/mu["m00"]) , int(mu["m01"]/mu["m00"])
+	
+	with open('data.csv', 'a') as f:
+		writer = csv.writer(f, lineterminator='\n') # 改行コード（\n）を指定しておく
+		writer.writerow([datetime.now().strftime("%Y_%m_%d %H:%M:%S"),x,y])     # list（1次元配列）の場合
+	
+	return x,y
 
 # カメラから画像を取得する
 def get_image(cam):
@@ -73,7 +85,11 @@ if __name__ == '__main__':
 			diff = check_image(img1, img2, img3)
 			# 差分がthの値以上なら動きがあったと判定 --- (*3)
 			cnt = cv2.countNonZero(diff)
+			x=0
+			y=0
 			if cnt > th:
+				
+				x,y=cal_moment(diff)
 				print("カメラに動きを検出")
 				lifetime=10
 			else:
@@ -89,6 +105,7 @@ if __name__ == '__main__':
 			
 			cv2.putText(tmpimg,datetime.now().strftime("%Y/%m/%d %H:%M:%S"),(width-130,height-5),fontface,fontscale, color)
 			cv2.imshow('PUSH ESC KEY', tmpimg)
+			
 			# 写真を画像 --- (*4)
 			#cv2.imwrite(save_path + str(num) + ".jpg", img3)
 			out.write(tmpimg)
