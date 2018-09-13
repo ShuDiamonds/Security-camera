@@ -22,6 +22,14 @@ save_path = "./"
 lifetime=10
 lifetime_dash=10
 
+theta = 180 # 回転角
+scale = 1.0    # 回転角度・拡大率
+
+# 画像の中心座標
+oy, ox = int(width/2), int(height/2)
+
+
+
 # 画像に動きがあったか調べる関数
 def check_image(img1, img2, img3):
     # グレイスケール画像に変換 --- (*6)
@@ -155,6 +163,10 @@ if __name__ == '__main__':
 					lifetime_dash=0
 				
 			if lifetime>0:
+				from scipy import ndimage
+				
+				img3_dash = ndimage.rotate(img3_dash, 180, reshape=False)
+
 				tmpimg_dash=img3_dash
 			else:
 				tmpimg_dash=diff_dash
