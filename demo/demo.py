@@ -4,6 +4,7 @@ from datetime import datetime
 import numpy as np
 from time import sleep
 import csv
+import os
 
 height=240
 width=320
@@ -72,7 +73,9 @@ if __name__ == '__main__':
 	
 	
 	while True:
-		out = cv2.VideoWriter('./output_{0}.avi'.format(datetime.now().strftime("%Y_%m_%d %H:%M:%S")),fourcc, fps, (width,height))
+		newfolderpath="./{0}/camera_0".format(datetime.now().strftime("%Y_%m_%d"))
+		os.makedirs(newfolderpath, exist_ok=True)
+		out = cv2.VideoWriter(newfolderpath+'/output_{0}.avi'.format(datetime.now().strftime("%Y_%m_%d %H:%M:%S")),fourcc, fps, (width,height))
 		StartTime=datetime.now()
 		
 		while True:
