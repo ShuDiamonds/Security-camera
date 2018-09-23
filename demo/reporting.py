@@ -42,7 +42,7 @@ def get_dir_size_old(path='.'):
 	        total += os.path.getsize(full_path)
 	    elif os.path.isdir(full_path):
 	        total += get_dir_size_old(full_path)
-return total
+	return total
 
 def ReportOnGmail(filesize1,filesize2,programstatus):
 	rawfiletmp = open("account.json" , "r")
@@ -87,7 +87,7 @@ if __name__ == '__main__':
 	currentday=date.today().strftime("%Y_%m_%d")
 	while(1):
 		sleep(3600)
-		check_program()
+		print(datetime.now().strftime("%Y_%m_%d")+str(check_program()))
 		if currentday != date.today().strftime("%Y_%m_%d"):#check the day is passed?
 			#one day passed
 			currentday = date.today().strftime("%Y_%m_%d")
