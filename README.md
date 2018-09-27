@@ -11,7 +11,7 @@ This python code is a security camera program using `USB Web Cam`. in this produ
 
 ## System Overview
 <p align="center"> 
-<img  src="https://github.com/ShuDiamonds/Security-camera/blob/master/image/Securitycamera_SystemOverview.svg.png"  title="wiring">
+<img  src="https://github.com/ShuDiamonds/Security-camera/blob/master/image/Securitycamera_SystemOverview.svg.png"  title="system overview">
 </p>
   
 ## Requirement  
@@ -20,7 +20,10 @@ This python code is a security camera program using `USB Web Cam`. in this produ
 * Python 3.x  
 * Opencv
 * Web Camera x2
-  
+ <p align="center"> 
+<img  src="https://github.com/ShuDiamonds/Security-camera/blob/master/image/IMG_20180927_215417.jpg"  title="setting" width="480">
+</p>
+ 
 ## Setting
 ###  demo2.py property
 * image size
