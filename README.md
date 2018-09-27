@@ -8,6 +8,7 @@ This python code is a security camera program using `USB Web Cam`. in this produ
 * Strong Reduction of its SD memory occupation with `difference extraction` Technology.
 * Reporting a daily bulletin through on Gmail.
 * Supervise the [main program](https://github.com/ShuDiamonds/Security-camera/blob/master/demo/demo2.py) by [reporting.py](https://github.com/ShuDiamonds/Security-camera/blob/master/demo/reporting.py).
+* Delete one week ago camera data automatically.
 
 ## System Overview
 <p align="center"> 
@@ -45,8 +46,8 @@ and you have to lower its Google Security level (if not doing that, you can't se
 $ python3 demo2.py
 ```
 ### report program example
-In this program, Raspberry pi read a variable register value(0-255) on `PCF8591` default setting. And 
-output to LED(located at lowwer in this picture) which is on PCF8591 using Digital analog converter.
+This program provides three function,Reporting on gmail,deleting one week ago camera data, program activity check (every one hour).
+
 ```bash
 $ python3 reporting.py
 ```
