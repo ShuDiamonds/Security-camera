@@ -2,16 +2,17 @@
 <img src="https://github.com/ShuDiamonds/Security-camera/blob/master/image/python_illustration.svg" height="150" width="300">
 
 # Security-camera
-This python code is a security camera program using `USB Web Cam`. in this product. The system output the avi video which is captured with "difference extraction" technology.
+This python code is a security camera program using `USB Web Cam`. in this product. The system output the avi video which is captured with `difference extraction` technology.
 
 ## Main Features
 * Strong Reduction of its SD memory occupation with `difference extraction` Technology.
 * Reporting a daily bulletin through on Gmail.
 * Supervise the [main program](https://github.com/ShuDiamonds/Security-camera/blob/master/demo/demo2.py) by [reporting.py](https://github.com/ShuDiamonds/Security-camera/blob/master/demo/reporting.py).
+* Delete one week ago camera data automatically.
 
 ## System Overview
 <p align="center"> 
-<img  src="https://github.com/ShuDiamonds/Security-camera/blob/master/image/Securitycamera_SystemOverview.svg.png"  title="wiring">
+<img  src="https://github.com/ShuDiamonds/Security-camera/blob/master/image/Securitycamera_SystemOverview.svg.png"  title="system overview">
 </p>
   
 ## Requirement  
@@ -20,7 +21,10 @@ This python code is a security camera program using `USB Web Cam`. in this produ
 * Python 3.x  
 * Opencv
 * Web Camera x2
-  
+ <p align="center"> 
+<img  src="https://github.com/ShuDiamonds/Security-camera/blob/master/image/IMG_20180927_215417.jpg"  title="setting" width="480">
+</p>
+ 
 ## Setting
 ###  demo2.py property
 * image size
@@ -42,8 +46,8 @@ and you have to lower its Google Security level (if not doing that, you can't se
 $ python3 demo2.py
 ```
 ### report program example
-In this program, Raspberry pi read a variable register value(0-255) on `PCF8591` default setting. And 
-output to LED(located at lowwer in this picture) which is on PCF8591 using Digital analog converter.
+This program provides three function,Reporting on gmail,deleting one week ago camera data, program activity check (every one hour).
+
 ```bash
 $ python3 reporting.py
 ```
