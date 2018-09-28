@@ -17,6 +17,25 @@ fontface = cv2.FONT_HERSHEY_SIMPLEX
 # 保存パスの指定
 save_path = "./"
 
+fps=2
+# カメラのキャプチャを開始 --- (*1)
+cam = cv2.VideoCapture(0)
+cam.set(cv2.CAP_PROP_FPS, 10)           # カメラFPSを60FPSに設定
+cam.set(cv2.CAP_PROP_FRAME_HEIGHT, height) # カメラ画像の縦幅を240に設定
+cam.set(cv2.CAP_PROP_FRAME_WIDTH, width) # カメラ画像の横幅を320に設定
+
+#フォントの大きさ
+fontscale = 0.3
+#フォントカラー(B, G, R)
+color=(255, 255, 255)
+#フォント
+fontface = cv2.FONT_HERSHEY_SIMPLEX
+
+# Define the codec and create VideoWriter object
+fourcc = cv2.VideoWriter_fourcc(*'XVID')
+out = cv2.VideoWriter('./output_{0}.avi'.format(datetime.now().strftime("%Y_%m_%d %H:%M:%S")),fourcc, fps, (width,height),False)
+
+
 # 画像に動きがあったか調べる関数
 def check_image(img1, img2, img3):
     # グレイスケール画像に変換 --- (*6)
@@ -68,11 +87,16 @@ if __name__ == '__main__':
 			#cv2.imwrite(save_path + str(num) + ".jpg", img3)
 			num += 1
 		else:
-			cv2.imshow('PUSH ESC KEY', diff)
+			#cv2.imshow('PUSH ESC KEY', diff)
 		# 比較用の画像を保存 --- (*5)
 		img1, img2, img3 = (img2, img3, get_image(cam))
+		cv2.putText(diff,datetime.now().strftime("%Y/%m/%d %H:%M:%S"),(width-120,height-5),fontface,fontscale, color)
+		cv2.imshow('PUSH ESC KEY', diff)
+		# write the flipped frame
+		out.write(diff)
 	# 後始末
 	cam.release()
+	out.release()
 	cv2.destroyAllWindows() 
 
 
