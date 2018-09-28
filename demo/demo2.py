@@ -127,7 +127,7 @@ if __name__ == '__main__':
 				tmpimg=diff
 			
 			cv2.putText(tmpimg,datetime.now().strftime("%Y/%m/%d %H:%M:%S"),(width-130,height-5),fontface,fontscale, color)
-			cv2.imshow('PUSH ESC KEY', tmpimg)
+			#cv2.imshow('PUSH ESC KEY', tmpimg)
 			
 			# 写真を画像 --- (*4)
 			#cv2.imwrite(save_path + str(num) + ".jpg", img3)
@@ -172,7 +172,7 @@ if __name__ == '__main__':
 				tmpimg_dash=diff_dash
 			
 			cv2.putText(tmpimg_dash,datetime.now().strftime("%Y/%m/%d %H:%M:%S"),(width-130,height-5),fontface,fontscale, color)
-			cv2.imshow('PUSH ESC KEY_dash', tmpimg_dash)
+			#cv2.imshow('PUSH ESC KEY_dash', tmpimg_dash)
 			
 			# 写真を画像 --- (*4)
 			#cv2.imwrite(save_path + str(num) + ".jpg", img3)
