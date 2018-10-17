@@ -75,27 +75,27 @@ def ReportOnGmail(filesize1,filesize2,programstatus,yesturday):
 
 	# attachments to base64 data. 
 	for file in attachments:
-	  try:
-		with open(file, 'rb') as fp:
-		  msg = MIMEBase('application', "octet-stream")          
-		  msg.set_payload(fp.read())
-		encoders.encode_base64(msg)      
-		msg.add_header('Content-Disposition', 'attachment', filename=os.path.basename(file))
-		outer.attach(msg)
-	  except:
-		print("Unable to open one of the attachments. Error: ", sys.exc_info()[0])           
-		raise
+		try:
+			with open(file, 'rb') as fp:
+			  msg = MIMEBase('application', "octet-stream")          
+			  msg.set_payload(fp.read())
+			encoders.encode_base64(msg)      
+			msg.add_header('Content-Disposition', 'attachment', filename=os.path.basename(file))
+			outer.attach(msg)
+		except:
+			print("Unable to open one of the attachments. Error: ", sys.exc_info()[0])           
+			raise
 
 	composed = outer.as_string()
 
 	try:
-	  with smtplib.SMTP('smtp.gmail.com', 587) as s:
-		s.ehlo()
-		s.starttls()
-		s.login(gmail_sender, gmail_passwd)
-		s.sendmail(gmail_sender, TO, composed)
-		s.close()
-	  print("Email sent!")
+		with smtplib.SMTP('smtp.gmail.com', 587) as s:
+			s.ehlo()
+			s.starttls()
+			s.login(gmail_sender, gmail_passwd)
+			s.sendmail(gmail_sender, TO, composed)
+			s.close()
+		print("Email sent!")
 	except:
 		print ('error sending mail')
 		raise
@@ -144,7 +144,7 @@ if __name__ == '__main__':
 			
 			tmppp=(date.today()- timedelta(1)).strftime("%Y_%m_%d")
 			yesturdayfilesize=int(get_dir_size_old(tmppp)/1024/1024)
-			makegraph(tmppp):
+			makegraph(tmppp)
 			ReportOnGmail(delfilesize,yesturdayfilesize,check_program(),tmppp)
 		
 
