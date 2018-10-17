@@ -12,10 +12,16 @@ import os
 from datetime import date, datetime, timedelta
 import shutil
 
-from email import message
-import smtplib
 import json
+import smtplib
+from email import encoders
+from email.mime.base import MIMEBase
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 
 def check_program():
 	keyword = "demo2.py"
@@ -44,30 +50,73 @@ def get_dir_size_old(path='.'):
 	        total += get_dir_size_old(full_path)
 	return total
 
-def ReportOnGmail(filesize1,filesize2,programstatus):
+def ReportOnGmail(filesize1,filesize2,programstatus,yesturday):
 	rawfiletmp = open("account.json" , "r")
 	accountjsonfile = json.load(rawfiletmp)
-	smtp_host = 'smtp.gmail.com'
-	smtp_port = 587
-	from_email = accountjsonfile["from_email"] # 送信元のアドレス
-	to_email = accountjsonfile["to_email"] # 送りたい先のアドレス
-	username = accountjsonfile["username"] # Gmailのアドレス
-	password = accountjsonfile["password"] # Gmailのパスワード
-	# メールの内容を作成
-	msg = message.EmailMessage()
+	### add
+	gmail_sender = accountjsonfile["username"] # Gmailのアドレス
+	gmail_passwd = accountjsonfile["password"] # Gmailのパスワード
+
+	SUBJECT = 'bulletin_'+date.today().strftime("%Y_%m_%d")# 件名
+	TO = accountjsonfile["to_email"] # 送りたい先のアドレス
+	FROM = gmail_sender
+
+	outer = MIMEMultipart()
+	outer['Subject'] = SUBJECT
+	outer['To'] = TO
+	outer['From'] = FROM
+	outer.preamble = 'You will not see this in a MIME-aware mail reader.\n'
 	mailbody="The olddest folder are deleted and {0}MB are relesed\n Security camera program is now active:{2}\n Yesterday file size was {1}MB".format(filesize1,filesize2,programstatus)
-	msg.set_content(mailbody) # メールの本文
-	msg['Subject'] = 'bulletin_'+date.today().strftime("%Y_%m_%d")# 件名
-	msg['From'] = from_email # メール送信元
-	msg['To'] = to_email #メール送信先
-	# メールサーバーへアクセス
-	server = smtplib.SMTP(smtp_host, smtp_port)
-	server.ehlo()
-	server.starttls()
-	server.ehlo()
-	server.login(username, password)
-	server.send_message(msg)
-	server.quit()
+	part1 = MIMEText(mailbody, 'plain')
+	outer.attach(part1)
+
+	# Add attachments.
+	attachments = ['./{0}/graph.png'.format(yesturday)]
+
+	# attachments to base64 data. 
+	for file in attachments:
+	  try:
+		with open(file, 'rb') as fp:
+		  msg = MIMEBase('application', "octet-stream")          
+		  msg.set_payload(fp.read())
+		encoders.encode_base64(msg)      
+		msg.add_header('Content-Disposition', 'attachment', filename=os.path.basename(file))
+		outer.attach(msg)
+	  except:
+		print("Unable to open one of the attachments. Error: ", sys.exc_info()[0])           
+		raise
+
+	composed = outer.as_string()
+
+	try:
+	  with smtplib.SMTP('smtp.gmail.com', 587) as s:
+		s.ehlo()
+		s.starttls()
+		s.login(gmail_sender, gmail_passwd)
+		s.sendmail(gmail_sender, TO, composed)
+		s.close()
+	  print("Email sent!")
+	except:
+		print ('error sending mail')
+		raise
+
+	### end add
+	
+	return
+
+def makegraph(yesturday):
+	DATE_FORMAT = "%Y_%m_%d %H:%M:%S"
+	my_date_parser = lambda d: pd.datetime.strptime(d, DATE_FORMAT)
+	df = pd.read_csv('./{0}/data.csv'.format(yesturday), index_col=0, date_parser=my_date_parser, names=["time","x","y"])
+	#print(df)
+	df["count"]=1
+
+
+	df2 = df["count"].resample('60min',how='sum')
+	plt.figure()
+	df2.plot()
+	plt.savefig('./{0}/graph.png'.format(yesturday))
+	plt.close('all')
 	return
 
 def deleteoldestcameradata():
@@ -95,8 +144,8 @@ if __name__ == '__main__':
 			
 			tmppp=(date.today()- timedelta(1)).strftime("%Y_%m_%d")
 			yesturdayfilesize=int(get_dir_size_old(tmppp)/1024/1024)
-			
-			ReportOnGmail(delfilesize,yesturdayfilesize,check_program())
+			makegraph(tmppp):
+			ReportOnGmail(delfilesize,yesturdayfilesize,check_program(),tmppp)
 		
 
 

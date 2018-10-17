@@ -48,11 +48,11 @@ def check_image(img1, img2, img3):
     return diff
 
 # moment
-def cal_moment(img):
+def cal_moment(img,hiduke):
 	mu = cv2.moments(img, False)
 	x,y= int(mu["m10"]/mu["m00"]) , int(mu["m01"]/mu["m00"])
 	
-	with open('data.csv', 'a') as f:
+	with open('./{0}/data.csv'.format(hiduke), 'a') as f:
 		writer = csv.writer(f, lineterminator='\n') # 改行コード（\n）を指定しておく
 		writer.writerow([datetime.now().strftime("%Y_%m_%d %H:%M:%S"),x,y])     # list（1次元配列）の場合
 	
@@ -87,6 +87,7 @@ if __name__ == '__main__':
 	
 	
 	while True:
+		hiduke=datetime.now().strftime("%Y_%m_%d")
 		newfolderpath="./{0}/camera_0".format(datetime.now().strftime("%Y_%m_%d"))
 		os.makedirs(newfolderpath, exist_ok=True)
 		out = cv2.VideoWriter(newfolderpath+'/output_{0}.avi'.format(datetime.now().strftime("%Y_%m_%d %H:%M:%S")),fourcc, fps, (width,height))
@@ -112,7 +113,7 @@ if __name__ == '__main__':
 			y=0
 			if cnt > th:
 				
-				x,y=cal_moment(diff)
+				x,y=cal_moment(diff,hiduke)
 				print("カメラに動きを検出")
 				lifetime=10
 			else:
@@ -153,7 +154,7 @@ if __name__ == '__main__':
 			y_dash=0
 			if cnt_dash > th:
 				
-				x_dash,y_dash=cal_moment(diff_dash)
+				x_dash,y_dash=cal_moment(diff_dash,hiduke)
 				print("カメラに動きを検出")
 				lifetime_dash=10
 			else:
