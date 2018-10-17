@@ -9,6 +9,10 @@ df = pd.read_csv('./data.csv', index_col=0, date_parser=my_date_parser, names=["
 df["count"]=1
 
 
-df2 = df.resample('60min',how='sum')
-print(df.head())
+df2 = df["count"].resample('60min',how='sum')
+plt.figure()
+df2.plot()
+plt.savefig('graph.png')
+plt.close('all')
+#print(df.head())
 
