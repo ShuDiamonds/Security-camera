@@ -23,6 +23,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 
+import seaborn as sns
+sns.set()
+
 def check_program():
 	keyword = "demo2.py"
 	#cmd = "ps ax | grep " + keyword + " | grep -v grep | wc -l"
@@ -132,7 +135,7 @@ def deleteoldestcameradata():
 		print(body)
 	return deletefilesize
 
-if __name__ == '__main__':
+def main():
 	currentday=date.today().strftime("%Y_%m_%d")
 	while(1):
 		sleep(3600)
@@ -147,7 +150,8 @@ if __name__ == '__main__':
 			makegraph(tmppp)
 			ReportOnGmail(delfilesize,yesturdayfilesize,check_program(),tmppp)
 		
-
+if __name__ == '__main__':
+	main()
 
 
 
