@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # coding: utf-8
 """
 main function are
@@ -141,7 +142,7 @@ def main():
 		print(datetime.now().strftime("%Y_%m_%d")+str(check_program()))
 		#debug
 		with open("debug.txt", "a") as f:
-			f.write(datetime.now().strftime("%Y_%m_%d")+str(check_program()))
+			f.write(datetime.now().strftime("%Y_%m_%d")+str(check_program())+"\n")
 		sleep(3600)
 		
 		if currentday != date.today().strftime("%Y_%m_%d"):#check the day is passed?
