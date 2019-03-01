@@ -138,11 +138,12 @@ def deleteoldestcameradata():
 def main():
 	currentday=date.today().strftime("%Y_%m_%d")
 	while(1):
-		sleep(3600)
 		print(datetime.now().strftime("%Y_%m_%d")+str(check_program()))
 		#debug
 		with open("debug.txt", "a") as f:
-			print(datetime.now().strftime("%Y_%m_%d")+str(check_program()))
+			f.write(datetime.now().strftime("%Y_%m_%d")+str(check_program()))
+		sleep(3600)
+		
 		if currentday != date.today().strftime("%Y_%m_%d"):#check the day is passed?
 			#one day passed
 			currentday = date.today().strftime("%Y_%m_%d")
