@@ -41,10 +41,14 @@ while True:
 	cv2.putText(img2,datetime.now().strftime("%Y/%m/%d %H:%M:%S"),(width-120,height-5),fontface,fontscale, color)
 
 	# ウィンドウに画像を表示 --- (*3)
-	cv2.imshow('PUSH ESC KEY', img)
-	cv2.imshow('PUSH ESC KEY2', img2)
+	#cv2.imshow('PUSH ESC KEY', img)
+	cv2.imshow('PUSH ESC KEY2', img)
 	# escキーが押されたら終了する
-	if cv2.waitKey(1) == 0x1b: break
+	key = cv2.waitKey(1)
+	if key == 0x1b: 
+		cv2.imwrite("takepic.jpg", img)
+		break
+
 # 後始末
 cam.release()
 cam2.release()

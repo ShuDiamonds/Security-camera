@@ -87,7 +87,8 @@ def ReportOnGmail(filesize1,filesize2,programstatus,yesturday):
 			msg.add_header('Content-Disposition', 'attachment', filename=os.path.basename(file))
 			outer.attach(msg)
 		except:
-			print("Unable to open one of the attachments. Error: ", sys.exc_info()[0])           
+			print("Unable to open one of the attachments. Error: ", sys.exc_info()[0])
+			debugprint("Unable to open one of the attachments. Error: "+str( sys.exc_info()[0]))
 			raise
 
 	composed = outer.as_string()
@@ -100,8 +101,10 @@ def ReportOnGmail(filesize1,filesize2,programstatus,yesturday):
 			s.sendmail(gmail_sender, TO, composed)
 			s.close()
 		print("Email sent!")
+		debugprint("Email sent!")
 	except:
 		print ('error sending mail')
+		debugprint('error sending mail')
 		raise
 
 	### end add
@@ -109,20 +112,28 @@ def ReportOnGmail(filesize1,filesize2,programstatus,yesturday):
 	return
 
 def makegraph(yesturday):
-	DATE_FORMAT = "%Y_%m_%d %H:%M:%S"
-	my_date_parser = lambda d: pd.datetime.strptime(d, DATE_FORMAT)
-	df = pd.read_csv('./{0}/data.csv'.format(yesturday), index_col=0, date_parser=my_date_parser, names=["time","x","y"])
-	#print(df)
-	df["count"]=1
+	try:
+		DATE_FORMAT = "%Y_%m_%d %H:%M:%S"
+		my_date_parser = lambda d: pd.datetime.strptime(d, DATE_FORMAT)
+		df = pd.read_csv('./{0}/data.csv'.format(yesturday), index_col=0, date_parser=my_date_parser, names=["time","x","y"])
+		#print(df)
+		df["count"]=1
 
 
-	df2 = df["count"].resample('60min',how='sum')
-	plt.figure()
-	df2.plot()
-	plt.savefig('./{0}/graph.png'.format(yesturday))
-	plt.close('all')
+		df2 = df["count"].resample('60min',how='sum')
+		plt.figure()
+		df2.plot()
+		plt.savefig('./{0}/graph.png'.format(yesturday))
+		plt.close('all')
+		return True
+	except:
+		return False
+	
+def debugprint(text):
+	with open("debug.txt", "a") as f:
+			f.write(datetime.now().strftime("%Y_%m_%d %H:%M:%S ")+text+"\n")
 	return
-
+	
 def deleteoldestcameradata():
 	deletefilesize=0
 	try:
@@ -141,8 +152,8 @@ def main():
 	while(1):
 		print(datetime.now().strftime("%Y_%m_%d")+str(check_program()))
 		#debug
-		with open("debug.txt", "a") as f:
-			f.write(datetime.now().strftime("%Y_%m_%d")+str(check_program())+"\n")
+		debugprint(str(check_program()))
+		
 		sleep(3600)
 		
 		if currentday != date.today().strftime("%Y_%m_%d"):#check the day is passed?
@@ -152,7 +163,12 @@ def main():
 			
 			tmppp=(date.today()- timedelta(1)).strftime("%Y_%m_%d")
 			yesturdayfilesize=int(get_dir_size_old(tmppp)/1024/1024)
-			makegraph(tmppp)
+			if makegraph(tmppp) == True:
+				pass
+			else:
+				with open('./{0}/graph.png'.format(yesturday), "w") as f:
+					f.write(datetime.now().strftime("%Y_%m_%d %H:%M:%S ")+"\n")
+				
 			ReportOnGmail(delfilesize,yesturdayfilesize,check_program(),tmppp)
 		
 if __name__ == '__main__':
