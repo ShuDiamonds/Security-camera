@@ -21,8 +21,11 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 import pandas as pd
+import matplotlib
+matplotlib.use('Agg') #in server, this is necesarry
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
+
 
 import seaborn as sns
 sns.set()
@@ -126,7 +129,10 @@ def makegraph(yesturday):
 		plt.savefig('./{0}/graph.png'.format(yesturday))
 		plt.close('all')
 		return True
-	except:
+	except Exception as e:
+		body = str(e.args)
+		print(body)
+		debugprint(body)
 		return False
 	
 def debugprint(text):
@@ -145,11 +151,14 @@ def deleteoldestcameradata():
 	except Exception as e:
 		body = str(e.args)
 		print(body)
+		debugprint(body)
 	return deletefilesize
+
 
 def main():
 	currentday=date.today().strftime("%Y_%m_%d")
-	while(1):
+	
+	while True:
 		print(datetime.now().strftime("%Y_%m_%d")+str(check_program()))
 		#debug
 		debugprint(str(check_program()))
@@ -163,11 +172,13 @@ def main():
 			
 			tmppp=(date.today()- timedelta(1)).strftime("%Y_%m_%d")
 			yesturdayfilesize=int(get_dir_size_old(tmppp)/1024/1024)
+			debugprint("yesturdayfilesize:"+str(yesturdayfilesize))
 			if makegraph(tmppp) == True:
 				pass
 			else:
-				with open('./{0}/graph.png'.format(yesturday), "w") as f:
+				with open('./{0}/graph.png'.format(tmppp), "w") as f:
 					f.write(datetime.now().strftime("%Y_%m_%d %H:%M:%S ")+"\n")
+				debugprint("makegraph is false")
 				
 			ReportOnGmail(delfilesize,yesturdayfilesize,check_program(),tmppp)
 		

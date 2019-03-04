@@ -1,1 +1,103 @@
-2019_03_01True
+2019_03_02 09:24:17 True
+2019_03_02 09:25:14 True
+2019_03_02 10:25:15 True
+2019_03_02 11:25:15 True
+2019_03_02 12:25:15 True
+2019_03_02 13:25:16 True
+2019_03_02 14:25:16 True
+2019_03_02 15:25:16 True
+2019_03_02 16:25:17 True
+2019_03_02 17:25:17 True
+2019_03_02 18:25:17 True
+2019_03_02 19:25:18 True
+2019_03_02 20:25:18 True
+2019_03_02 21:25:18 True
+2019_03_02 22:25:18 True
+2019_03_02 23:25:19 True
+2019_03_03 00:25:28 True
+2019_03_03 01:25:29 True
+2019_03_03 02:25:29 True
+2019_03_03 03:25:29 True
+2019_03_03 04:25:30 True
+2019_03_03 05:25:30 True
+2019_03_03 06:25:30 True
+2019_03_03 07:25:31 True
+2019_03_03 08:20:22 True
+2019_03_03 09:20:22 True
+2019_03_03 10:20:22 True
+2019_03_03 11:20:23 True
+2019_03_03 12:20:23 True
+2019_03_03 13:20:23 True
+2019_03_03 14:20:24 True
+2019_03_03 15:20:24 True
+2019_03_03 16:20:24 True
+2019_03_03 17:20:24 True
+2019_03_03 18:20:25 True
+2019_03_03 19:20:25 True
+2019_03_03 20:20:25 True
+2019_03_03 21:20:26 True
+2019_03_03 22:20:26 True
+2019_03_03 23:20:26 True
+2019_03_04 00:20:35 True
+2019_03_04 01:20:35 True
+2019_03_04 02:20:35 True
+2019_03_04 03:20:36 True
+2019_03_04 04:20:36 True
+2019_03_04 05:20:36 True
+2019_03_04 06:20:37 True
+2019_03_04 07:20:37 True
+2019_03_04 08:20:37 True
+2019_03_04 09:20:37 True
+2019_03_04 10:20:38 True
+2019_03_04 11:20:38 True
+2019_03_04 12:20:38 True
+2019_03_04 13:20:39 True
+2019_03_04 14:16:54 True
+2019_03_04 14:16:55 (2, 'No such file or directory')
+2019_03_04 14:16:55 yesturdayfilesize:12
+2019_03_04 14:16:56 makegraph is false
+2019_03_04 14:17:00 Email sent!
+2019_03_04 14:17:08 True
+2019_03_04 14:17:09 (2, 'No such file or directory')
+2019_03_04 14:17:09 yesturdayfilesize:12
+2019_03_04 14:17:10 makegraph is false
+2019_03_04 14:17:12 Email sent!
+2019_03_04 14:17:21 True
+2019_03_04 14:17:22 (2, 'No such file or directory')
+2019_03_04 14:17:22 yesturdayfilesize:12
+2019_03_04 14:17:23 makegraph is false
+2019_03_04 14:17:28 Email sent!
+2019_03_04 14:17:38 True
+2019_03_04 14:17:39 (2, 'No such file or directory')
+2019_03_04 14:17:39 yesturdayfilesize:12
+2019_03_04 14:17:40 makegraph is false
+2019_03_04 14:17:43 Email sent!
+2019_03_04 14:17:52 True
+2019_03_04 14:17:53 (2, 'No such file or directory')
+2019_03_04 14:17:53 yesturdayfilesize:12
+2019_03_04 14:17:54 makegraph is false
+2019_03_04 14:17:56 Email sent!
+2019_03_04 14:18:08 True
+2019_03_04 14:18:09 (2, 'No such file or directory')
+2019_03_04 14:18:09 yesturdayfilesize:12
+2019_03_04 14:18:10 makegraph is false
+2019_03_04 14:18:13 Email sent!
+2019_03_04 14:22:17 True
+2019_03_04 14:22:18 (2, 'No such file or directory')
+2019_03_04 14:22:18 yesturdayfilesize:12
+2019_03_04 14:22:20 ('no display name and no $DISPLAY environment variable',)
+2019_03_04 14:22:20 makegraph is false
+2019_03_04 14:22:22 Email sent!
+2019_03_04 14:24:40 True
+2019_03_04 14:24:41 (2, 'No such file or directory')
+2019_03_04 14:24:41 yesturdayfilesize:12
+2019_03_04 14:24:42 read csv
+2019_03_04 14:24:43 ('no display name and no $DISPLAY environment variable',)
+2019_03_04 14:24:43 makegraph is false
+2019_03_04 14:24:45 Email sent!
+2019_03_04 14:29:06 True
+2019_03_04 14:29:07 (2, 'No such file or directory')
+2019_03_04 14:29:07 yesturdayfilesize:12
+2019_03_04 14:29:14 Email sent!
+2019_03_04 14:30:29 True
+2019_03_04 14:31:00 True
